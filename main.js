@@ -264,6 +264,7 @@
                             key: "connectedCallback",
                             value: function () {
                                 var e = this;
+                                //console.log(this.shadowRoot); 
                                 this.shadowRoot.appendChild(k.content.cloneNode(!0)),
                                     (this.$tile = this.shadowRoot.querySelector(".tile")),
                                     this.$tile.addEventListener("animationend", function (a) {

@@ -1,32 +1,25 @@
-/*const checkElement = setInterval(() => {
-    // window.getElementById("board")
+
+async function foo() {
+const GUESSES = ["brass", "barns", "brain"]; 
+
+const gameAppRoot = window.document.getElementsByTagName("game-app")[0]; 
+const gameKeyboardRoot = gameAppRoot.shadowRoot.querySelector("game-keyboard"); 
+
+gameKeyboardRoot.style.display = 'none'; 
+
+for(word of GUESSES) {
+    console.log(word);
+    for(letter of word) {
+        const keyboardBtn = gameKeyboardRoot.shadowRoot.querySelector(`button[data-key="${letter}"]`); 
+        await new Promise(resolve => setTimeout(resolve, 500));
+        keyboardBtn.click(); 
+    }
     
-    console.log(window.document.getElementById('board')); 
-    if (window.document.getElementById('board')) {
-    clearInterval(checkElement);
-    console.log('Element is now visible!');
-    // Your code to execute after the element is visible
-  }
-}, 1000); 
-*/
+    const enterBtn = gameKeyboardRoot.shadowRoot.querySelector('button[data-key="↵"]');
+    enterBtn.click();  
+    await new Promise(resolve => setTimeout(resolve, 2000));
+}
+}
 
+foo(); 
 
-window.onload = function(){
-           const checkElement = setInterval(() => {
-    // window.getElementById("board")
-    
-    console.log(window.document.getElementById('board')); 
-    if (window.document.getElementById('board')) {
-    clearInterval(checkElement);
-    console.log('Element is now visible!');
-    // Your code to execute after the element is visible
-  }
-}, 1000);
-};
-
-
-
-
-// Check every 100 milliseconds
-//const productA = document.querySelector('button[data-key="q"]');
-//console.log(productA); // Output: Product A
