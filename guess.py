@@ -84,6 +84,11 @@ def get_potential_guesses(letter_feedbacks: List[LetterFeedback], known_words: L
         if len(wrong_spot_map) > 0:
             should_still_consider = True
             for wrong_spot_letter in wrong_spot_map:
+                min_occurence = len(correct_idx_map.get(wrong_spot_letter, [])) + 1 
+
+                if known_word.count(wrong_spot_letter) < min_occurence:
+                    should_still_consider = False
+
                 for idx in wrong_spot_map[wrong_spot_letter]:
                     if known_word[idx] == wrong_spot_letter:
                         should_still_consider = False
@@ -93,6 +98,7 @@ def get_potential_guesses(letter_feedbacks: List[LetterFeedback], known_words: L
         
         candidate_words.append(known_word)
 
+    print(len(candidate_words))
     return candidate_words
 
 
@@ -104,7 +110,7 @@ target_word = random.choice(list(historical_solutions))
 guess_feedbacks: List[LetterFeedback] = []
 guesses = 0
 
-#print("TARGET=", target_word)
+print("TARGET=", target_word)
 
 while guesses < 6:
     potential_guesses = get_potential_guesses(guess_feedbacks, known_words)
