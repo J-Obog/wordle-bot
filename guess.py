@@ -5,11 +5,21 @@ import os
 import time
 
 candidates = [] 
+historical_solutions = set()
+allowed_words = set() 
 
 with open("known.json", "r", encoding="utf") as ifile:
     candidates = json.load(ifile)
 
-target_word = "goals"
+with open("wordle_solutions.json", "r", encoding="utf-8") as sol_file:
+    historical_solutions = set(json.load(sol_file))
+
+with open("wordle_allowed.json", "r", encoding="utf-8") as allowed_file:
+    allowed_words = set(json.load(allowed_file))
+
+predefined_target = None
+
+target_word = predefined_target if predefined_target is not None else random.choice(list(historical_solutions))
 
 not_in_target = set()
 known_idxs = {}
@@ -73,7 +83,12 @@ guessed_words = []
 
 while guesses < 6:
     guess_word = random.choice(candidates)
-    guessed_words.append(guess_word)
+
+    # this doesn't give the solver any more information that a person would get if the word is invalid
+    is_word_valid = (guess_word in allowed_words) or (guess_word in historical_solutions)
+
+    if is_word_valid:
+        guessed_words.append(guess_word)
 
     if guess_word == target_word:
         won = True
@@ -96,7 +111,8 @@ while guesses < 6:
 
     update_candidate_words()
 
-    guesses += 1 
+    if is_word_valid:
+        guesses += 1 
  
 
 jsfile_content = f"const guessArr={guessed_words};\nwindow.localStorage.setItem('solverGuesses', JSON.stringify(guessArr));\nwindow.localStorage.setItem('wordToGuess', '{target_word}');"
