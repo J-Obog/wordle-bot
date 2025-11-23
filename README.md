@@ -1,2 +1,4 @@
 wordle solver
-![newgif](https://github.com/user-attachments/assets/b73942a6-eb8b-4200-9178-0d3327c3bb5d)
+
+![Recording 2025-11-22 235844](https://github.com/user-attachments/assets/87843606-33ca-415b-8104-85100ac25e3f)
+
