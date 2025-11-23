@@ -8,18 +8,15 @@ candidates = []
 historical_solutions = set()
 allowed_words = set() 
 
-with open("known.json", "r", encoding="utf") as ifile:
-    candidates = json.load(ifile)
+def get_json_from_file(filename):
+    with open(filename, "r", encoding="utf-8") as ifile:
+        return json.load(ifile)
 
-with open("wordle_solutions.json", "r", encoding="utf-8") as sol_file:
-    historical_solutions = set(json.load(sol_file))
+candidates = get_json_from_file("known.json")
+historical_solutions = set(get_json_from_file("wordle_solutions.json"))
+allowed_words = set(get_json_from_file("wordle_allowed.json"))
 
-with open("wordle_allowed.json", "r", encoding="utf-8") as allowed_file:
-    allowed_words = set(json.load(allowed_file))
-
-predefined_target = None
-
-target_word = predefined_target if predefined_target is not None else random.choice(list(historical_solutions))
+target_word = random.choice(list(historical_solutions))
 
 not_in_target = set()
 known_idxs = {}
@@ -91,7 +88,6 @@ while guesses < 6:
         guessed_words.append(guess_word)
 
     if guess_word == target_word:
-        won = True
         break
 
     feedback = get_feedback(guess_word)
@@ -115,14 +111,5 @@ while guesses < 6:
         guesses += 1 
  
 
-jsfile_content = f"const guessArr={guessed_words};\nwindow.localStorage.setItem('solverGuesses', JSON.stringify(guessArr));\nwindow.localStorage.setItem('wordToGuess', '{target_word}');"
-
-with open("storage.js", "w+", encoding="utf-8") as out_js_file:
-    out_js_file.write(jsfile_content)
-    
-
 time.sleep(1)
-#print(os.getcwd())
-
-
 webbrowser.open_new_tab(f'http://localhost:8009/game.html?tword={target_word}&tries={json.dumps(guessed_words)}')
