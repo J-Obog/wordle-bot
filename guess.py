@@ -1,5 +1,8 @@
 import json
 import random
+import webbrowser
+import os
+import time
 
 candidates = [] 
 
@@ -101,3 +104,6 @@ jsfile_content = f"const guessArr={guessed_words};\nwindow.localStorage.setItem(
 with open("storage.js", "w+", encoding="utf-8") as out_js_file:
     out_js_file.write(jsfile_content)
     
+
+time.sleep(1)
+webbrowser.open_new_tab(f"{os.getcwd()}\game.html")
